@@ -1,6 +1,7 @@
 ball = Class{}
 
 function ball:init(x, y, radius)
+  self.image = love.graphics.newImage('ball.png') -- ball image
   self.x = x
   self.y = y
   self.radius = radius
@@ -33,5 +34,6 @@ function ball:update(dt)
 end
 
 function ball:render()
-  love.graphics.circle('fill', self.x, self.y, self.radius)
+  love.graphics.draw(self.image, self.x, self.y)
+  --love.graphics.circle('fill', self.x, self.y, self.radius)
 end
