@@ -79,7 +79,9 @@ function buttons:MenuButton(button_number)
 end
 
 function buttons:PlayerKey(key)
-  -- Player 1
+  -- THIS PORTION CONSISTS OF EDITING THE CORRESPONDING BUTTONS FOR THE MOVEMENTS OF BOTH PADDLES
+
+  -- Player 1 'Text'
   local button_xlocation = WINDOW_WIDTH * 0.15
   local button_ylocation = WINDOW_HEIGHT * 0.3
   love.graphics.printf("Player 1", button_xlocation, button_ylocation, WINDOW_WIDTH, 'left')
@@ -90,20 +92,22 @@ function buttons:PlayerKey(key)
   local textcolor = {1,1,1,1}
   local mx, my = love.mouse.getPosition() -- Position of mouse according to x & y axis
   local highlight = mx > button_xlocation and mx < button_xlocation + button_width and my > button_ylocation and my < button_ylocation + button_height
-  if highlight then
+  if highlight then -- Activates the highlight variable (change its color) when the mouse hovered to this button
     textcolor = {1,1,0,1}
   end
   love.graphics.setColor(unpack(textcolor))
 
+  -- User will click first and then will record the key pressed
   click = love.mouse.isDown(1)
   if click == true and highlight then
     p1keyUp = "<Insert Key>"
     p1keyUpOpen = true
   end
 
+  -- The key pressed will be the corresponding key movement of the paddle
   if key ~= nil then
     if p1keyUpOpen == true then
-      if love.keyboard.isDown(tostring(key)) then
+      if love.keyboard.isDown(key) then
         edit = true
         keybindings:list(key)
         if p1keyUpOpen == false then
@@ -120,7 +124,7 @@ function buttons:PlayerKey(key)
   local button_xlocation = WINDOW_WIDTH * 0.2
   local button_ylocation = WINDOW_HEIGHT * 0.5
   local textcolor = {1,1,1,1}
-  local mx, my = love.mouse.getPosition() -- Position of mouse according to x & y axis
+  local mx, my = love.mouse.getPosition()
   local highlight = mx > button_xlocation and mx < button_xlocation + button_width and my > button_ylocation and my < button_ylocation + button_height
   if highlight then
     textcolor = {1,1,0,1}
@@ -135,7 +139,7 @@ function buttons:PlayerKey(key)
 
   if key ~= nil then
     if p1keyDownOpen == true then
-      if love.keyboard.isDown(tostring(key)) then
+      if love.keyboard.isDown(key) then
         edit = true
         keybindings:list(key)
         if p1keyDownOpen == false then
@@ -148,7 +152,7 @@ function buttons:PlayerKey(key)
 
   love.graphics.printf("Down: " .. p1keyDown, button_xlocation, button_ylocation, WINDOW_WIDTH, 'left')
 
-  -- Player 2
+  -- Player 2 'Text'
   local button_xlocation = WINDOW_WIDTH * 0.57
   local button_ylocation = WINDOW_HEIGHT * 0.3
   love.graphics.setColor(1,1,1,1)
@@ -158,7 +162,7 @@ function buttons:PlayerKey(key)
   local button_xlocation = WINDOW_WIDTH * 0.6
   local button_ylocation = WINDOW_HEIGHT * 0.4
   local textcolor = {1,1,1,1}
-  local mx, my = love.mouse.getPosition() -- Position of mouse according to x & y axis
+  local mx, my = love.mouse.getPosition()
   local highlight = mx > button_xlocation and mx < button_xlocation + button_width and my > button_ylocation and my < button_ylocation + button_height
   if highlight then
     textcolor = {1,1,0,1}
@@ -173,7 +177,7 @@ function buttons:PlayerKey(key)
 
   if key ~= nil then
     if p2keyUpOpen == true then
-      if love.keyboard.isDown(tostring(key)) then
+      if love.keyboard.isDown(key) then
         edit = true
         keybindings:list(key)
         if p2keyUpOpen == false then
@@ -190,7 +194,7 @@ function buttons:PlayerKey(key)
   local button_xlocation = WINDOW_WIDTH * 0.6
   local button_ylocation = WINDOW_HEIGHT * 0.5
   local textcolor = {1,1,1,1}
-  local mx, my = love.mouse.getPosition() -- Position of mouse according to x & y axis
+  local mx, my = love.mouse.getPosition()
   local highlight = mx > button_xlocation and mx < button_xlocation + button_width and my > button_ylocation and my < button_ylocation + button_height
   if highlight then
     textcolor = {1,1,0,1}
@@ -250,40 +254,6 @@ function buttons:Vsync()
     switch2 = not switch2
   end
 end
-
---[[
-function buttons:Fullscreen()
-  local button_xlocation = WINDOW_WIDTH * 0.57
-  local button_ylocation = WINDOW_HEIGHT * 0.68
-
-  love.graphics.setColor(0,1,0,1)
-  love.graphics.rectangle("fill", button_xlocation, button_ylocation, button_width, button_height )
-  
-  -- Boxed Location of 'Fullscreen' button and activates the 'highlight' variable
-  local mx, my = love.mouse.getPosition()
-  local textcolor = {1,1,1,1}
-  local highlight = mx > button_xlocation and mx < button_xlocation + button_width and my > button_ylocation and my < button_ylocation + button_height
-  if highlight then
-    textcolor = {1,1,0,1}
-  end
-
-  love.graphics.setColor(unpack(textcolor))
-  love.graphics.printf(unpack(fullscreen))
-  click = love.mouse.isDown(1)
-  
-  if click == true and highlight then  
-    if switch == true then
-      fullscreen = {'Fullscreen: Off', button_xlocation, button_ylocation, WINDOW_WIDTH * 0.8, 'left'}
-      love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false})
-    end
-    if switch == false then
-      fullscreen = {'Fullscreen: On', button_xlocation, button_ylocation, WINDOW_WIDTH * 0.8, 'left'}
-      love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = true})
-    end
-    switch = not switch
-  end
-end
---]]
 
 function buttons:Exit()
   local mx, my = love.mouse.getPosition()

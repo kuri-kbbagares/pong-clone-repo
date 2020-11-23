@@ -1,7 +1,7 @@
 ball = Class{}
 
 function ball:init(x, y, radius)
-  self.image = love.graphics.newImage('ball.png') -- ball image
+  self.image = love.graphics.newImage('textures/ball.png') -- ball image
   self.x = x
   self.y = y
   self.radius = radius

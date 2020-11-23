@@ -5,7 +5,7 @@ playerServe = 1
 
 --THIS ARE THE OBJECT CLASS (WHERE THE VALUES OF OBJECTS ARE KEPT)
 Class = require 'class'
-require 'paddles'
+require 'paddle1'
 require 'paddle2'
 require 'ball'
 require 'buttons'
@@ -22,12 +22,11 @@ function love.load()
       vsync = false
     })
   
-   paddlePlayerOne = paddles(40, 120, 25, 150)
+   paddlePlayerOne = paddle1(40, 120, 25, 150)
    paddlePlayerTwo = paddle2(WINDOW_WIDTH -80, WINDOW_HEIGHT - 240, 25, 150)
    playBall = ball(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 20)
    winningPlayer = 0
 
-   
    player1Score = 0
    player2Score = 0
    
@@ -35,7 +34,8 @@ function love.load()
 
   -- It is a list of buttons that has the same y-axis which coded by "for" function 
   buttons:SetButtons()
-  
+
+  -- Default key for the paddles
   p1Up = 'w'
   p1Down = 's'
   p2Up = 'up'
@@ -59,26 +59,25 @@ function love.draw()
     game_Options()
   
   elseif game_State == 'exit' then
-    love.event.quit()   
+    love.event.quit()
   end
 
   font = love.graphics.setNewFont(WINDOW_HEIGHT / 18)
   font_height = font:getHeight()
 end
 
-function love.textinput(key)
-
-end
-
 function love.keypressed(key)
   --This condition will initiate the game_State from 'start' to 'play'
  if game_State == 'start' then
-    if key == 'enter' or key == 'return' then
+    if key == 'return' then
       game_State = 'play'
+    elseif key == 'escape' then
+      game_State = 'menu'
     end
   end
+
   if game_State == 'win' then
-    if key == 'space' then
+    if key == 'space' or 'escape' then
       player1Score = 0
       player2Score = 0
       game_State = 'menu'
@@ -135,11 +134,12 @@ function love.update(dt)
        playBall.dy = -playBall.dy
       end
       --(END) 
-        --(START) this handles the reset of the ball
+
+      --(START) this handles the reset of the ball
    if playBall.x < 0 then --conditional operator of the ball's x
      playerServe = 1
      player2Score = player2Score + 1
-    if player2Score >= 10 then
+    if player2Score == 10 then
        game_State = 'win'
        winningPlayer = 2
        
@@ -152,7 +152,7 @@ function love.update(dt)
    if playBall.x > WINDOW_WIDTH then
      playerServe = 2
      player1Score = player1Score + 1
-    if player1Score >= 10 then
+    if player1Score == 10 then
       game_State = 'win'
       winningPlayer = 1
     else
@@ -161,11 +161,8 @@ function love.update(dt)
     end
    end 
   --(END) 
-end 
+   end 
    
-   
- 
-    
   --(START) this handles controls the paddle
   --CONTROL FOR PLAYER 1:
    if love.keyboard.isDown(p1Up) then
@@ -189,7 +186,7 @@ end
      playBall:update(dt)
    end 
    
-  --Updates paddle movements 
+  --Updates paddle movements
    paddlePlayerOne:update(dt)
    paddlePlayerTwo:update(dt)
  end
@@ -221,20 +218,21 @@ function game_Options()
   buttons:PlayerKey()
   -- Vsync Button
   buttons:Vsync()
-  -- Fullscreen Button
-  -- buttons:Fullscreen()
   -- Exit Button
   buttons:Exit()
-end
-
-function fpsDisplay()
-  love.graphics.setColor(0, 255/255, 0, 255/255)
-  love.graphics.print('FPS : ' .. tostring(love.timer.getFPS()), 10, 10)
 end
 
 function game_End()
   love.graphics.setColor(1, 1, 1, 1)
   
   love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!',
-            0, 10, WINDOW_WIDTH, 'center')
+                        0, 10, WINDOW_WIDTH, 'center')
+
+  -- The ball will return again to the center
+  playBall:reset()
+end
+
+function fpsDisplay()
+  love.graphics.setColor(0, 255/255, 0, 255/255)
+  love.graphics.print('FPS : ' .. tostring(love.timer.getFPS()), 10, 10)
 end
