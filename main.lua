@@ -3,6 +3,9 @@ WINDOW_HEIGHT = 720
 game_State = "menu"
 playerServe = 1
 
+local background = love.graphics.newImage('textures/background.png')
+local menu_bg = love.graphics.newImage('textures/menu_bg.png')
+
 --THIS ARE THE OBJECT CLASS (WHERE THE VALUES OF OBJECTS ARE KEPT)
 Class = require 'class'
 require 'paddle1'
@@ -16,6 +19,13 @@ movementOfY = 350
 function love.load()
       math.randomseed(os.time())
       
+      menu_font = love.graphics.newFont('font.ttf', 32)
+      
+      sounds = {
+        ['paddle_hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
+        ['score'] = love.audio.newSource('sounds/score.wav', 'static'),
+        ['wall_hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static')
+            
       love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
       fullscreen = false,
       resizable = false,
@@ -43,6 +53,8 @@ function love.load()
 end
 
 function love.draw()
+  love.graphics.draw(background, 0, 0)
+            
   if game_State == 'menu' then
     game_Menu()
   
@@ -62,8 +74,7 @@ function love.draw()
     love.event.quit()
   end
 
-  font = love.graphics.setNewFont(WINDOW_HEIGHT / 18)
-  font_height = font:getHeight()
+  love.graphics.setFont(menu_font)
 end
 
 function love.keypressed(key)
@@ -108,6 +119,7 @@ function love.update(dt)
        else
          playBall.dy = math.random(300, 500)
        end
+       sounds['paddle_hit']:play()
      end
      
      if playBall:collision(paddlePlayerTwo) then
@@ -119,7 +131,9 @@ function love.update(dt)
        else
          playBall.dy = math.random(300, 500)
        end
-       
+                        
+       sounds['paddle_hit']:play()
+                        
      end
      -- (END)
      
@@ -127,11 +141,13 @@ function love.update(dt)
      if playBall.y <= 0 then
        playBall.y = 0
        playBall.dy = -playBall.dy
+       sounds['wall_hit']:play()
      end
      
      if playBall.y >= WINDOW_HEIGHT then
        playBall.y = WINDOW_HEIGHT - 20
        playBall.dy = -playBall.dy
+       sounds['wall_hit']:play()
       end
       --(END) 
 
@@ -139,6 +155,7 @@ function love.update(dt)
    if playBall.x < 0 then --conditional operator of the ball's x
      playerServe = 1
      player2Score = player2Score + 1
+     sounds['score']:play()
     if player2Score == 10 then
        game_State = 'win'
        winningPlayer = 2
@@ -152,6 +169,7 @@ function love.update(dt)
    if playBall.x > WINDOW_WIDTH then
      playerServe = 2
      player1Score = player1Score + 1
+     sounds['score']:play()
     if player1Score == 10 then
       game_State = 'win'
       winningPlayer = 1
@@ -193,7 +211,7 @@ function love.update(dt)
  
 function game_Menu()
   love.graphics.setColor(1,1,1,1)
-  love.graphics.printf('Pong', 0, WINDOW_HEIGHT / 5, WINDOW_WIDTH, 'center')
+  love.graphics.printf('PONG', 0, WINDOW_HEIGHT / 5, WINDOW_WIDTH, 'center')
   
   -- Menu Buttons
   buttons:MenuButton()
