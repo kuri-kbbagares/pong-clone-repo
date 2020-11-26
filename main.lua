@@ -33,8 +33,8 @@ function love.load()
       vsync = false
     })
   
-   paddlePlayerOne = paddle1(40, 120, 25, 150)
-   paddlePlayerTwo = paddle2(WINDOW_WIDTH -80, WINDOW_HEIGHT - 240, 25, 150)
+   paddlePlayerOne = paddle1(40, 120, 10, 100)
+   paddlePlayerTwo = paddle2(WINDOW_WIDTH -80, WINDOW_HEIGHT - 240, 10, 100)
    playBall = ball(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 20)
    winningPlayer = 0
 
@@ -145,8 +145,8 @@ function love.update(dt)
        sounds['wall_hit']:play()
      end
      
-     if playBall.y >= WINDOW_HEIGHT then
-       playBall.y = WINDOW_HEIGHT - 20
+     if playBall.y >= WINDOW_HEIGHT - 50 then
+       playBall.y = WINDOW_HEIGHT -50
        playBall.dy = -playBall.dy
        sounds['wall_hit']:play()
       end
@@ -244,8 +244,8 @@ end
 function game_End()
   love.graphics.setColor(1, 1, 1, 1)
   
-  love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!',
-                        0, 10, WINDOW_WIDTH, 'center')
+  love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0,
+                        WINDOW_HEIGHT/2, WINDOW_WIDTH, 'center')
 
   -- The ball will return again to the center
   playBall:reset()
