@@ -22,7 +22,7 @@ function ball:collision(paddles)
 end
 
 function ball:reset()
-  self.x = WINDOW_WIDTH/2
+  self.x = WINDOW_WIDTH/2 -25
   self.y = WINDOW_HEIGHT/2
   self.dy = math.random(2) == 1 and -200 or 200
   self.dx = math.random(-150, 150)

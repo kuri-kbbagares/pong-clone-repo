@@ -35,7 +35,7 @@ function love.load()
   
    paddlePlayerOne = paddle1(40, 120, 10, 100)
    paddlePlayerTwo = paddle2(WINDOW_WIDTH -80, WINDOW_HEIGHT - 240, 10, 100)
-   playBall = ball(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 20)
+   playBall = ball(WINDOW_WIDTH/2 - 25, WINDOW_HEIGHT/2, 20)
    winningPlayer = 0
 
    player1Score = 0
