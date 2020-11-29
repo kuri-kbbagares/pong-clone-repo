@@ -16,5 +16,5 @@ Features:
 4. Keybindings and Toggleable V-sync
 5. Main Menu
 
-Instructions to play the game
-To PLAY the game, drag the directory to a LOVE.exe
+Instructions to play the game:
+ To PLAY the game, drag the directory to a LOVE.exe
